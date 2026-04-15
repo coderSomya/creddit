@@ -1,0 +1,4 @@
+{"branch":"HEAD","offset":26623}                                                                                                                                                                                                                               
+.gitignore {"Ok":"{\"location\":131074,\"receipt_id\":\"047cfc247f315f48fb6b670531f569b12c28795da5cb69ff66b22f737b2fef04_ac25e2770980a1a3944a09621c17e57b1134a78f749295b7c6dec1320814b29a\"}"}
+backend/config/db.js {"Ok":"{\"location\":131074,\"receipt_id\":\"047cfc247f315f48fb6b670531f569b12c28795da5cb69ff66b22f737b2fef04_2c21776bc986da21141eb69cbcb0fa15a231fbe1e6d722606c80f9c47a4ca969\"}"}
+backend/server.js {"Ok":"{\"location\":131074,\"receipt_id\":\"047cfc247f315f48fb6b670531f569b12c28795da5cb69ff66b22f737b2fef04_d5d38863d12f3eddd43da67cb993c814a7dcad8208c10a871bbf73e618177ef6\"}"}
