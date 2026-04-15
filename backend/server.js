@@ -4,6 +4,7 @@ const cors = require('cors');
 
 const connectDB = require('./config/db');
 const healthRouter = require('./routes/health');
+const authRouter = require('./routes/auth');
 
 connectDB();
 
@@ -15,6 +16,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/health', healthRouter);
+app.use('/api/auth', authRouter);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
