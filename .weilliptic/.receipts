@@ -1,2 +1,6 @@
-{"branch":"HEAD","offset":3097}                                                                                                                                                                                                                                
-README.md {"Ok":"{\"location\":131074,\"receipt_id\":\"047cfc247f315f48fb6b670531f569b12c28795da5cb69ff66b22f737b2fef04_292394dee4378b645269c048e7174543c5604225df0c2e604f13218db243d1d8\"}"}
+{"branch":"HEAD","offset":36669}                                                                                                                                                                                                                               
+backend/models/Post.js {"Ok":"{\"location\":131074,\"receipt_id\":\"047cfc247f315f48fb6b670531f569b12c28795da5cb69ff66b22f737b2fef04_1fc1f8a58d67612d75f39e5e6068bc850fd5c6bf99027a7517a6ee4586a85f10\"}"}
+backend/controllers/postController.js {"Ok":"{\"location\":131074,\"receipt_id\":\"047cfc247f315f48fb6b670531f569b12c28795da5cb69ff66b22f737b2fef04_4c16c7fe628c6d413a9e5077158cd898b690e92c9ab59bcb0d6d89c1516622da\"}"}
+backend/routes/posts.js {"Ok":"{\"location\":131074,\"receipt_id\":\"047cfc247f315f48fb6b670531f569b12c28795da5cb69ff66b22f737b2fef04_69295ec414de76fba10aedce16ca2bd6fbb9120a9286dd7440bd96662f1d6dc9\"}"}
+backend/server.js {"Ok":"{\"location\":131074,\"receipt_id\":\"047cfc247f315f48fb6b670531f569b12c28795da5cb69ff66b22f737b2fef04_f086a3b2647aae520e776f28c3db543954eb0c8db10b1d542b933e7f2b12f394\"}"}
+backend/server.js {"Ok":"{\"location\":131074,\"receipt_id\":\"047cfc247f315f48fb6b670531f569b12c28795da5cb69ff66b22f737b2fef04_11eabd558329271d1dad24325ea4d9015b2b748c1301842db44af0a0272a23ec\"}"}
