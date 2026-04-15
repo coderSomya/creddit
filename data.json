@@ -1,0 +1,59 @@
+{
+  "posts": [
+    {
+      "id": "1",
+      "title": "What's your favorite programming language and why?",
+      "body": "I've been using Python for years but recently started learning Rust. The ownership model is a bit of a brain-bender but I'm starting to see why people love it.",
+      "author": "devguy42",
+      "subreddit": "r/programming",
+      "upvotes": 1482,
+      "downvotes": 93,
+      "commentCount": 347,
+      "createdAt": "2026-04-14T10:23:00Z"
+    },
+    {
+      "id": "2",
+      "title": "TIL that honey never expires — archaeologists found 3000-year-old honey in Egyptian tombs and it was still edible",
+      "body": "",
+      "author": "curious_minds",
+      "subreddit": "r/todayilearned",
+      "upvotes": 84201,
+      "downvotes": 612,
+      "commentCount": 1203,
+      "createdAt": "2026-04-13T08:45:00Z"
+    },
+    {
+      "id": "3",
+      "title": "My first mechanical keyboard build — super happy with how it turned out!",
+      "body": "Used Gateron Yellow switches, a 65% aluminum case, and PBT keycaps. Lubed the stabs with dielectric grease. Took about 6 hours but completely worth it.",
+      "author": "clicky_fingers",
+      "subreddit": "r/mechanicalkeyboards",
+      "upvotes": 4739,
+      "downvotes": 41,
+      "commentCount": 218,
+      "createdAt": "2026-04-12T19:30:00Z"
+    },
+    {
+      "id": "4",
+      "title": "Unpopular opinion: dark mode is overrated",
+      "body": "I actually find light mode easier to read for long coding sessions. High contrast dark themes strain my eyes more than a warm light background. Fight me.",
+      "author": "controversial_carl",
+      "subreddit": "r/unpopularopinion",
+      "upvotes": 2310,
+      "downvotes": 5820,
+      "commentCount": 892,
+      "createdAt": "2026-04-11T14:10:00Z"
+    },
+    {
+      "id": "5",
+      "title": "Just finished building a Reddit clone with the MERN stack — here's what I learned",
+      "body": "Biggest takeaway: JWT refresh token handling is way more complex than tutorials make it seem. Also, optimistic UI updates for voting make a huge difference in feel.",
+      "author": "fullstack_learner",
+      "subreddit": "r/webdev",
+      "upvotes": 6127,
+      "downvotes": 88,
+      "commentCount": 441,
+      "createdAt": "2026-04-10T22:05:00Z"
+    }
+  ]
+}
