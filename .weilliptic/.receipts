@@ -1,8 +1,2 @@
-{"branch":"HEAD","offset":45965}                                                                                                                                                                                                                               
-backend/package-lock.json {"Ok":"{\"location\":131074,\"receipt_id\":\"047cfc247f315f48fb6b670531f569b12c28795da5cb69ff66b22f737b2fef04_dfde319f84b0dea864e6f064c33c2172909ce733e4f24a57b41c451ed2257f27\"}"}
-backend/package.json {"Ok":"{\"location\":131074,\"receipt_id\":\"047cfc247f315f48fb6b670531f569b12c28795da5cb69ff66b22f737b2fef04_dfde319f84b0dea864e6f064c33c2172909ce733e4f24a57b41c451ed2257f27\"}"}
-backend/models/User.js {"Ok":"{\"location\":131074,\"receipt_id\":\"047cfc247f315f48fb6b670531f569b12c28795da5cb69ff66b22f737b2fef04_857061c405cb38fb7f9093ac56a211f3ad53cf7947ce101ac427851b89bf5a6e\"}"}
-backend/controllers/authController.js {"Ok":"{\"location\":131074,\"receipt_id\":\"047cfc247f315f48fb6b670531f569b12c28795da5cb69ff66b22f737b2fef04_a812f674eaef7a020b74c871c1adc9ed10b9d7ca1d6bd0f964845dd10df65c28\"}"}
-backend/routes/auth.js {"Ok":"{\"location\":131074,\"receipt_id\":\"047cfc247f315f48fb6b670531f569b12c28795da5cb69ff66b22f737b2fef04_754077fb8ba7a9a8a70926c118fb1efa8559ea13fc245606d063eceea842ecb4\"}"}
-backend/middleware/auth.js {"Ok":"{\"location\":131074,\"receipt_id\":\"047cfc247f315f48fb6b670531f569b12c28795da5cb69ff66b22f737b2fef04_9b96785cd4d2857eae14863e7f213d9bfa66a60fd31fe599c50c379b8a65ba26\"}"}
-backend/server.js {"Ok":"{\"location\":131074,\"receipt_id\":\"047cfc247f315f48fb6b670531f569b12c28795da5cb69ff66b22f737b2fef04_b5d57a1e97ffec4c5e9ec428c62e31f8d21f2c6b8ac3d849aca549b252498a52\"}"}
+{"branch":"HEAD","offset":3097}                                                                                                                                                                                                                                
+README.md {"Ok":"{\"location\":131074,\"receipt_id\":\"047cfc247f315f48fb6b670531f569b12c28795da5cb69ff66b22f737b2fef04_292394dee4378b645269c048e7174543c5604225df0c2e604f13218db243d1d8\"}"}
