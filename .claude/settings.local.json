@@ -4,7 +4,10 @@
       "Bash(npm init:*)",
       "Bash(npm install:*)",
       "Bash(npm create:*)",
-      "Bash(npm run:*)"
+      "Bash(npm run:*)",
+      "Bash(grep -r \"color\\\\|theme\\\\|--\" /Users/somya/Desktop/Dev/creddit/frontend/src --include=*.css --include=*.js --include=*.jsx)",
+      "Bash(grep -r \"style\\\\|color\" /Users/somya/Desktop/Dev/creddit/frontend/src --include=*.jsx --include=*.js)",
+      "Bash(grep -r \"color\\\\|background\\\\|border\" /Users/somya/Desktop/Dev/creddit/frontend/src/components /Users/somya/Desktop/Dev/creddit/frontend/src/pages --include=*.jsx)"
     ]
   }
 }

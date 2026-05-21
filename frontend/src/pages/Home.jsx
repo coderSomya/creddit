@@ -26,8 +26,8 @@ export default function Home() {
             style={{
               padding: '6px 16px',
               borderRadius: 4,
-              border: `1px solid ${sort === s ? '#0057b7' : '#b3c7e6'}`,
-              background: sort === s ? '#0057b7' : '#fff',
+              border: `1px solid ${sort === s ? '#2e7d32' : '#a5d6a7'}`,
+              background: sort === s ? '#2e7d32' : '#fff',
               color: sort === s ? '#fff' : '#333',
               cursor: 'pointer',
               fontWeight: sort === s ? 600 : 400,
@@ -63,8 +63,8 @@ export default function Home() {
                 alignItems: 'flex-start',
                 cursor: 'pointer',
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#0057b7')}
-              onMouseLeave={(e) => (e.currentTarget.style.borderColor = '#b3c7e6')}
+              onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#2e7d32')}
+              onMouseLeave={(e) => (e.currentTarget.style.borderColor = '#a5d6a7')}
             >
               {/* Vote count */}
               <div
@@ -73,7 +73,7 @@ export default function Home() {
                   textAlign: 'center',
                   fontWeight: 700,
                   fontSize: 15,
-                  color: post.upvotes - post.downvotes > 0 ? '#e53e3e' : '#888',
+                  color: post.upvotes - post.downvotes > 0 ? '#4caf50' : '#888',
                 }}
               >
                 {post.upvotes - post.downvotes}

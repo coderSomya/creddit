@@ -23,13 +23,13 @@ export default function PostDetail() {
 
   return (
     <div style={{ maxWidth: 740, margin: '24px auto', padding: '0 16px' }}>
-      <Link to="/" style={{ fontSize: 13, color: '#0057b7', textDecoration: 'none' }}>
+      <Link to="/" style={{ fontSize: 13, color: '#2e7d32', textDecoration: 'none' }}>
         ← Back to feed
       </Link>
 
       <div
         style={{
-          border: '1px solid #b3c7e6',
+          border: '1px solid #a5d6a7',
           borderRadius: 4,
           background: '#fff',
           padding: '20px 24px',
@@ -42,7 +42,7 @@ export default function PostDetail() {
           {' · '}
           {new Date(post.createdAt).toLocaleDateString()}
           {' · '}
-          <span style={{ color: score > 0 ? '#e53e3e' : '#888', fontWeight: 600 }}>
+          <span style={{ color: score > 0 ? '#4caf50' : '#888', fontWeight: 600 }}>
             {score} {score === 1 ? 'vote' : 'votes'}
           </span>
           {' ('}↑{post.upvotes} ↓{post.downvotes}{')'}
@@ -53,7 +53,7 @@ export default function PostDetail() {
             fontSize: 15,
             lineHeight: 1.6,
             whiteSpace: 'pre-wrap',
-            borderTop: '1px solid #b3c7e6',
+            borderTop: '1px solid #a5d6a7',
             paddingTop: 16,
           }}
         >

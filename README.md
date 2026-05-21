@@ -1,5 +1,7 @@
 # Creddit
 
+Hello from Claude Code!
+
 A Reddit clone built with the MERN stack.
 
 ## Prerequisites
