@@ -26,11 +26,11 @@ const styles = {
     justifyContent: 'space-between',
     padding: '0 1.5rem',
     height: '56px',
-    background: '#000',
+    background: '#1a2d5a',
     color: '#fff',
   },
   brand: {
-    color: '#fff',
+    color: '#e53e3e',
     fontWeight: 700,
     fontSize: '1.4rem',
     textDecoration: 'none',
@@ -50,6 +50,6 @@ const styles = {
     textDecoration: 'none',
     fontSize: '0.9rem',
     fontWeight: 600,
-    borderBottom: '2px solid #fff',
+    borderBottom: '2px solid #e53e3e',
   },
 };
