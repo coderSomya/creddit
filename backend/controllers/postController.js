@@ -1,54 +1,53 @@
 const Post = require('../models/Post');
+const asyncHandler = require('../middleware/asyncHandler');
+const AppError = require('../utils/AppError');
 
-const createPost = async (req, res) => {
+const createPost = asyncHandler(async (req, res) => {
   const { title, content } = req.body;
 
   if (!title || !content) {
-    return res.status(400).json({ message: 'Title and content are required' });
+    throw new AppError('Title and content are required', 400);
   }
 
-  try {
-    const post = await Post.create({
-      title,
-      content,
-      author: req.user._id,
-    });
+  const post = await Post.create({ title, content, author: req.user._id });
+  await post.populate('author', 'username');
 
-    await post.populate('author', 'username');
+  res.status(201).json(post);
+});
 
-    res.status(201).json(post);
-  } catch (err) {
-    res.status(500).json({ message: 'Server error' });
-  }
-};
-
-const getPosts = async (req, res) => {
+const getPosts = asyncHandler(async (req, res) => {
   const { sort = 'newest' } = req.query;
 
-  const sortOption =
-    sort === 'popular'
-      ? { upvotes: -1, createdAt: -1 }
-      : { createdAt: -1 };
+  const sortOption = sort === 'popular'
+    ? { upvotes: -1, createdAt: -1 }
+    : { createdAt: -1 };
 
-  try {
-    const posts = await Post.find()
-      .sort(sortOption)
-      .populate('author', 'username');
+  const posts = await Post.find().sort(sortOption).populate('author', 'username');
+  res.json(posts);
+});
 
-    res.json(posts);
-  } catch (err) {
-    res.status(500).json({ message: 'Server error' });
+const getPostById = asyncHandler(async (req, res) => {
+  const post = await Post.findById(req.params.id).populate('author', 'username');
+  if (!post) throw new AppError('Post not found', 404);
+  res.json(post);
+});
+
+const votePost = asyncHandler(async (req, res) => {
+  const { type } = req.body;
+
+  if (type !== 'up' && type !== 'down') {
+    throw new AppError('Vote type must be "up" or "down"', 400);
   }
-};
 
-const getPostById = async (req, res) => {
-  try {
-    const post = await Post.findById(req.params.id).populate('author', 'username');
-    if (!post) return res.status(404).json({ message: 'Post not found' });
-    res.json(post);
-  } catch (err) {
-    res.status(500).json({ message: 'Server error' });
-  }
-};
+  const field = type === 'up' ? 'upvotes' : 'downvotes';
+  const post = await Post.findByIdAndUpdate(
+    req.params.id,
+    { $inc: { [field]: 1 } },
+    { new: true }
+  ).populate('author', 'username');
 
-module.exports = { createPost, getPosts, getPostById };
+  if (!post) throw new AppError('Post not found', 404);
+  res.json(post);
+});
+
+module.exports = { createPost, getPosts, getPostById, votePost };
