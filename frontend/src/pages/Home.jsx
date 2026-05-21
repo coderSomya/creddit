@@ -27,7 +27,7 @@ export default function Home() {
               padding: '6px 16px',
               borderRadius: 4,
               border: '1px solid #ccc',
-              background: sort === s ? '#ff4500' : '#fff',
+              background: sort === s ? '#000' : '#fff',
               color: sort === s ? '#fff' : '#333',
               cursor: 'pointer',
               fontWeight: sort === s ? 600 : 400,
@@ -63,7 +63,7 @@ export default function Home() {
                 alignItems: 'flex-start',
                 cursor: 'pointer',
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#ff4500')}
+              onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#000')}
               onMouseLeave={(e) => (e.currentTarget.style.borderColor = '#ccc')}
             >
               {/* Vote count */}
@@ -73,7 +73,7 @@ export default function Home() {
                   textAlign: 'center',
                   fontWeight: 700,
                   fontSize: 15,
-                  color: post.upvotes - post.downvotes > 0 ? '#ff4500' : '#888',
+                  color: post.upvotes - post.downvotes > 0 ? '#000' : '#888',
                 }}
               >
                 {post.upvotes - post.downvotes}

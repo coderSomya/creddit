@@ -23,7 +23,7 @@ export default function PostDetail() {
 
   return (
     <div style={{ maxWidth: 740, margin: '24px auto', padding: '0 16px' }}>
-      <Link to="/" style={{ fontSize: 13, color: '#ff4500', textDecoration: 'none' }}>
+      <Link to="/" style={{ fontSize: 13, color: '#000', textDecoration: 'none' }}>
         ← Back to feed
       </Link>
 
@@ -42,7 +42,7 @@ export default function PostDetail() {
           {' · '}
           {new Date(post.createdAt).toLocaleDateString()}
           {' · '}
-          <span style={{ color: score > 0 ? '#ff4500' : '#888', fontWeight: 600 }}>
+          <span style={{ color: score > 0 ? '#000' : '#888', fontWeight: 600 }}>
             {score} {score === 1 ? 'vote' : 'votes'}
           </span>
           {' ('}↑{post.upvotes} ↓{post.downvotes}{')'}

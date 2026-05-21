@@ -26,7 +26,7 @@ const styles = {
     justifyContent: 'space-between',
     padding: '0 1.5rem',
     height: '56px',
-    background: '#ff4500',
+    background: '#000',
     color: '#fff',
   },
   brand: {
@@ -41,7 +41,7 @@ const styles = {
     gap: '1rem',
   },
   link: {
-    color: 'rgba(255,255,255,0.85)',
+    color: 'rgba(255,255,255,0.7)',
     textDecoration: 'none',
     fontSize: '0.9rem',
   },
