@@ -1,6 +1,7 @@
 const Post = require('../models/Post');
 const asyncHandler = require('../middleware/asyncHandler');
 const AppError = require('../utils/AppError');
+const { findSimilar } = require('../utils/similarity');
 
 const createPost = asyncHandler(async (req, res) => {
   const { title, content } = req.body;
@@ -50,4 +51,16 @@ const votePost = asyncHandler(async (req, res) => {
   res.json(post);
 });
 
-module.exports = { createPost, getPosts, getPostById, votePost };
+// ── Controller ────────────────────────────────────────────────────────────────
+
+const getSimilarPosts = asyncHandler(async (req, res) => {
+  const target = await Post.findById(req.params.id);
+  if (!target) throw new AppError('Post not found', 404);
+
+  const allPosts = await Post.find().populate('author', 'username');
+  const others = allPosts.filter((p) => String(p._id) !== String(target._id));
+
+  res.json(findSimilar(target, others));
+});
+
+module.exports = { createPost, getPosts, getPostById, votePost, getSimilarPosts };

@@ -2,6 +2,9 @@
 
 Hello from Claude Code!
 
+hello world
+
+
 A Reddit clone built with the MERN stack.
 
 ## Prerequisites
@@ -31,6 +34,15 @@ npm run dev
 ```
 
 The frontend runs on `http://localhost:3000`.
+
+## Running tests
+
+```bash
+cd backend
+npm test
+```
+
+Tests use Node's built-in `node:test` runner — no extra dependencies required. The test suite covers the similar-post matching algorithm (`backend/tests/similarity.test.js`).
 
 ## Environment variables
 

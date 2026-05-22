@@ -1,5 +1,5 @@
 const express = require('express');
-const { createPost, getPosts, getPostById, votePost } = require('../controllers/postController');
+const { createPost, getPosts, getPostById, votePost, getSimilarPosts } = require('../controllers/postController');
 const { protect } = require('../middleware/auth');
 const commentRouter = require('./comments');
 
@@ -11,5 +11,6 @@ router.get('/', getPosts);
 router.post('/', protect, createPost);
 router.get('/:id', getPostById);
 router.post('/:id/vote', protect, votePost);
+router.get('/:id/similar', getSimilarPosts);
 
 module.exports = router;
