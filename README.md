@@ -7,6 +7,12 @@ hello world
 
 A Reddit clone built with the MERN stack.
 
+## Architecture Overview
+
+The following diagram illustrates the system architecture for Creddit, a MERN-based Reddit clone.
+
+![Architecture Diagram](docs/assets/architecture.svg)
+
 ## Prerequisites
 
 - Node.js
