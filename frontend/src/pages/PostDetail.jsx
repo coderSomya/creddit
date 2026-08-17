@@ -4,26 +4,49 @@ import { api } from '../services/api';
 
 export default function PostDetail() {
   const { id } = useParams();
-  const [post, setPost] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [similar, setSimilar] = useState([]);
+  const [detail, setDetail] = useState({
+    post: null,
+    similar: [],
+    requestedId: null,
+    status: 'loading',
+    error: null,
+  });
 
   useEffect(() => {
-    setLoading(true);
-    setPost(null);
-    setSimilar([]);
-    setError(null);
+    let cancelled = false;
 
     api.get(`/posts/${id}`)
       .then((data) => {
-        setPost(data);
-        return api.get(`/posts/${id}/similar`);
+        return api.get(`/posts/${id}/similar`).then((similarPosts) => ({
+          post: data,
+          similar: similarPosts,
+        }));
       })
-      .then(setSimilar)
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
+      .then(({ post, similar }) => {
+        if (!cancelled) {
+          setDetail({ post, similar, requestedId: id, status: 'ready', error: null });
+        }
+      })
+      .catch((err) => {
+        if (!cancelled) {
+          setDetail({
+            post: null,
+            similar: [],
+            requestedId: id,
+            status: 'error',
+            error: err.message,
+          });
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
   }, [id]);
+
+  const { post, similar } = detail;
+  const loading = detail.status === 'loading' || detail.requestedId !== id;
+  const error = detail.status === 'error' ? detail.error : null;
 
   if (loading) return <p style={{ padding: 24, color: '#888' }}>Loading…</p>;
   if (error) return <p style={{ padding: 24, color: 'red' }}>{error}</p>;

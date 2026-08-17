@@ -3,39 +3,103 @@ import { Link } from 'react-router-dom';
 import { api } from '../services/api';
 
 export default function Home() {
-  const [posts, setPosts] = useState([]);
+  const [feed, setFeed] = useState({
+    posts: [],
+    requestedSort: null,
+    status: 'loading',
+    error: null,
+  });
   const [sort, setSort] = useState('newest');
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [query, setQuery] = useState('');
 
   useEffect(() => {
-    setLoading(true);
+    let cancelled = false;
+
     api.get(`/posts?sort=${sort}`)
-      .then(setPosts)
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
+      .then((posts) => {
+        if (!cancelled) {
+          setFeed({ posts, requestedSort: sort, status: 'ready', error: null });
+        }
+      })
+      .catch((err) => {
+        if (!cancelled) {
+          setFeed({ posts: [], requestedSort: sort, status: 'error', error: err.message });
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
   }, [sort]);
+
+  const posts = feed.posts;
+  const loading = feed.status === 'loading' || feed.requestedSort !== sort;
+  const error = feed.status === 'error' ? feed.error : null;
+  const normalizedQuery = query.trim().toLowerCase();
+  const visiblePosts = normalizedQuery
+    ? posts.filter((post) => {
+        const searchable = [
+          post.title,
+          post.content,
+          post.author?.username,
+        ].join(' ').toLowerCase();
+
+        return searchable.includes(normalizedQuery);
+      })
+    : posts;
 
   return (
     <div style={{ maxWidth: 740, margin: '24px auto', padding: '0 16px' }}>
-      <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
-        {['newest', 'popular'].map((s) => (
-          <button
-            key={s}
-            onClick={() => setSort(s)}
+      <div
+        style={{
+          display: 'flex',
+          gap: 12,
+          marginBottom: 16,
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+        }}
+      >
+        <div style={{ display: 'flex', gap: 8 }}>
+          {['newest', 'popular'].map((s) => (
+            <button
+              key={s}
+              onClick={() => setSort(s)}
+              style={{
+                padding: '6px 16px',
+                borderRadius: 4,
+                border: `1px solid ${sort === s ? '#2e7d32' : '#a5d6a7'}`,
+                background: sort === s ? '#2e7d32' : '#fff',
+                color: sort === s ? '#fff' : '#333',
+                cursor: 'pointer',
+                fontWeight: sort === s ? 600 : 400,
+              }}
+            >
+              {s.charAt(0).toUpperCase() + s.slice(1)}
+            </button>
+          ))}
+        </div>
+
+        <label style={{ flex: '1 1 240px', maxWidth: 320 }}>
+          <input
+            type="search"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="Search posts"
+            aria-label="Search posts"
             style={{
-              padding: '6px 16px',
+              width: '100%',
+              boxSizing: 'border-box',
+              padding: '7px 10px',
               borderRadius: 4,
-              border: `1px solid ${sort === s ? '#2e7d32' : '#a5d6a7'}`,
-              background: sort === s ? '#2e7d32' : '#fff',
-              color: sort === s ? '#fff' : '#333',
-              cursor: 'pointer',
-              fontWeight: sort === s ? 600 : 400,
+              border: '1px solid #a5d6a7',
+              background: '#fff',
+              color: '#333',
+              font: 'inherit',
+              fontSize: 14,
             }}
-          >
-            {s.charAt(0).toUpperCase() + s.slice(1)}
-          </button>
-        ))}
+          />
+        </label>
       </div>
 
       {loading && <p style={{ color: '#888' }}>Loading posts…</p>}
@@ -45,8 +109,12 @@ export default function Home() {
         <p style={{ color: '#888' }}>No posts yet. Be the first to post!</p>
       )}
 
+      {!loading && !error && posts.length > 0 && visiblePosts.length === 0 && (
+        <p style={{ color: '#888' }}>No posts match "{query.trim()}".</p>
+      )}
+
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-        {posts.map((post) => (
+        {visiblePosts.map((post) => (
           <Link
             key={post._id}
             to={`/post/${post._id}`}
