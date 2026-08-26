@@ -3,6 +3,17 @@ const asyncHandler = require('../middleware/asyncHandler');
 const AppError = require('../utils/AppError');
 const { findSimilar } = require('../utils/similarity');
 
+const incrementPostVote = async (postId, field) => {
+  const post = await Post.findByIdAndUpdate(
+    postId,
+    { $inc: { [field]: 1 } },
+    { new: true }
+  ).populate('author', 'username');
+
+  if (!post) throw new AppError('Post not found', 404);
+  return post;
+};
+
 const createPost = asyncHandler(async (req, res) => {
   const { title, content } = req.body;
 
@@ -41,13 +52,17 @@ const votePost = asyncHandler(async (req, res) => {
   }
 
   const field = type === 'up' ? 'upvotes' : 'downvotes';
-  const post = await Post.findByIdAndUpdate(
-    req.params.id,
-    { $inc: { [field]: 1 } },
-    { new: true }
-  ).populate('author', 'username');
+  const post = await incrementPostVote(req.params.id, field);
+  res.json(post);
+});
 
-  if (!post) throw new AppError('Post not found', 404);
+const likePost = asyncHandler(async (req, res) => {
+  const post = await incrementPostVote(req.params.id, 'upvotes');
+  res.json(post);
+});
+
+const dislikePost = asyncHandler(async (req, res) => {
+  const post = await incrementPostVote(req.params.id, 'downvotes');
   res.json(post);
 });
 
@@ -63,4 +78,12 @@ const getSimilarPosts = asyncHandler(async (req, res) => {
   res.json(findSimilar(target, others));
 });
 
-module.exports = { createPost, getPosts, getPostById, votePost, getSimilarPosts };
+module.exports = {
+  createPost,
+  getPosts,
+  getPostById,
+  votePost,
+  likePost,
+  dislikePost,
+  getSimilarPosts,
+};
