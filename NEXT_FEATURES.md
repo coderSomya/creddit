@@ -12,7 +12,7 @@ Current baseline:
 
 ## Feature List
 
-### 1. Login Form UI
+[done] ### 1. Login Form UI 
 
 Add a working login form on the frontend.
 
