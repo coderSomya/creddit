@@ -7,6 +7,10 @@ hello world
 
 A Reddit clone built with the MERN stack.
 
+## Product roadmap
+
+See [Creddit Next Features](NEXT_FEATURES.md) for a discrete, one-feature-at-a-time roadmap.
+
 ## Architecture Overview
 
 The following diagram illustrates the system architecture for Creddit, a MERN-based Reddit clone.
