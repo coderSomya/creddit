@@ -30,7 +30,7 @@ Done when:
 - The token is persisted in `localStorage`.
 - Failed login attempts show a clear error without leaving the page.
 
-### 2. Register Form UI
+[done] ### 2. Register Form UI
 
 Add a working registration form on the frontend.
 
