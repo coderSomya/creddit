@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useLocation, useParams, Link } from 'react-router-dom';
 import { api } from '../services/api';
 
 export default function PostDetail() {
   const { id } = useParams();
+  const location = useLocation();
   const [detail, setDetail] = useState({
     post: null,
     similar: [],
@@ -56,6 +57,9 @@ export default function PostDetail() {
 
   return (
     <div style={{ maxWidth: 740, margin: '24px auto', padding: '0 16px' }}>
+      {location.state?.message && (
+        <p role="status" style={styles.success}>{location.state.message}</p>
+      )}
       <Link to="/" style={{ fontSize: 13, color: '#2e7d32', textDecoration: 'none' }}>
         ← Back to feed
       </Link>
@@ -139,3 +143,10 @@ export default function PostDetail() {
     </div>
   );
 }
+
+const styles = {
+  success: {
+    margin: '0 0 12px', color: '#1b5e20', background: '#f1f8f1', border: '1px solid #81c784',
+    borderRadius: 4, padding: '9px 12px', fontSize: 14, textAlign: 'left',
+  },
+};

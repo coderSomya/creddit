@@ -11,6 +11,9 @@ export default function Navbar() {
         <NavLink to="/" style={({ isActive }) => isActive ? styles.activeLink : styles.link} end>
           Home
         </NavLink>
+        <NavLink to="/create" style={({ isActive }) => isActive ? styles.activeLink : styles.link}>
+          Create Post
+        </NavLink>
         {isLoggedIn ? (
           <>
             {user?.username && <span style={styles.username}>u/{user.username}</span>}

@@ -65,7 +65,7 @@ Done when:
 - Logged-in users see account state and can log out.
 - Logging out immediately updates the navbar without a page refresh.
 
-### 4. Create Post UI
+[done] ### 4. Create Post UI
 
 Add a frontend flow for creating posts.
 
