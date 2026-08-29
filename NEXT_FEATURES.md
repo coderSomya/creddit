@@ -48,7 +48,7 @@ Done when:
 - The user is logged in immediately after registration.
 - Form validation catches obvious input mistakes before submission.
 
-### 3. Auth-Aware Navbar
+[done] ### 3. Auth-Aware Navbar
 
 Update the navbar based on whether the user is logged in.
 

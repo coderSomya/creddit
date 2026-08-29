@@ -41,7 +41,7 @@ export default function Login() {
         password: form.password,
       });
 
-      login(data.token);
+      login(data.token, data.user);
       navigate('/');
     } catch (err) {
       setStatus({

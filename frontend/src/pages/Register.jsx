@@ -48,7 +48,7 @@ export default function Register() {
         email: form.email.trim(),
         password: form.password,
       });
-      login(data.token);
+      login(data.token, data.user);
       navigate('/');
     } catch (err) {
       setStatus({ submitting: false, error: err.message || 'Unable to create your account. Please try again.' });

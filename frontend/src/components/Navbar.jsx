@@ -1,6 +1,9 @@
 import { Link, NavLink } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 
 export default function Navbar() {
+  const { isLoggedIn, user, logout } = useAuth();
+
   return (
     <nav style={styles.nav}>
       <Link to="/" style={styles.brand}>Creddit</Link>
@@ -8,12 +11,21 @@ export default function Navbar() {
         <NavLink to="/" style={({ isActive }) => isActive ? styles.activeLink : styles.link} end>
           Home
         </NavLink>
-        <NavLink to="/login" style={({ isActive }) => isActive ? styles.activeLink : styles.link}>
-          Login
-        </NavLink>
-        <NavLink to="/register" style={({ isActive }) => isActive ? styles.activeLink : styles.link}>
-          Register
-        </NavLink>
+        {isLoggedIn ? (
+          <>
+            {user?.username && <span style={styles.username}>u/{user.username}</span>}
+            <button type="button" onClick={logout} style={styles.logoutButton}>Logout</button>
+          </>
+        ) : (
+          <>
+            <NavLink to="/login" style={({ isActive }) => isActive ? styles.activeLink : styles.link}>
+              Login
+            </NavLink>
+            <NavLink to="/register" style={({ isActive }) => isActive ? styles.activeLink : styles.link}>
+              Register
+            </NavLink>
+          </>
+        )}
       </div>
     </nav>
   );
@@ -38,6 +50,7 @@ const styles = {
   },
   links: {
     display: 'flex',
+    alignItems: 'center',
     gap: '1rem',
   },
   link: {
@@ -51,5 +64,20 @@ const styles = {
     fontSize: '0.9rem',
     fontWeight: 600,
     borderBottom: '2px solid #e53e3e',
+  },
+  username: {
+    color: '#fff',
+    fontSize: '0.9rem',
+    fontWeight: 600,
+  },
+  logoutButton: {
+    border: '1px solid rgba(255,255,255,0.45)',
+    borderRadius: 4,
+    background: 'transparent',
+    color: '#fff',
+    cursor: 'pointer',
+    font: 'inherit',
+    fontSize: '0.9rem',
+    padding: '5px 10px',
   },
 };
