@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../services/api';
+import PostVoteControls from '../components/PostVoteControls';
 
 export default function Home() {
   const [feed, setFeed] = useState({
@@ -47,6 +48,15 @@ export default function Home() {
         return searchable.includes(normalizedQuery);
       })
     : posts;
+
+  const handleVote = (updatedPost) => {
+    setFeed((current) => ({
+      ...current,
+      posts: current.posts.map((post) => (
+        post._id === updatedPost._id ? updatedPost : post
+      )),
+    }));
+  };
 
   return (
     <div style={{ maxWidth: 740, margin: '24px auto', padding: '0 16px' }}>
@@ -115,41 +125,24 @@ export default function Home() {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {visiblePosts.map((post) => (
-          <Link
+          <article
             key={post._id}
-            to={`/post/${post._id}`}
-            style={{ textDecoration: 'none', color: 'inherit' }}
+            style={{
+              border: '1px solid #b3c7e6',
+              borderRadius: 4,
+              padding: '12px 16px',
+              background: '#fff',
+              display: 'flex',
+              gap: 16,
+              alignItems: 'flex-start',
+            }}
           >
-            <div
-              style={{
-                border: '1px solid #b3c7e6',
-                borderRadius: 4,
-                padding: '12px 16px',
-                background: '#fff',
-                display: 'flex',
-                gap: 16,
-                alignItems: 'flex-start',
-                cursor: 'pointer',
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#2e7d32')}
-              onMouseLeave={(e) => (e.currentTarget.style.borderColor = '#a5d6a7')}
+            <PostVoteControls post={post} onVote={handleVote} compact />
+            <Link
+              to={`/post/${post._id}`}
+              style={{ flex: 1, minWidth: 0, textDecoration: 'none', color: 'inherit' }}
             >
-              {/* Vote count */}
-              <div
-                style={{
-                  minWidth: 40,
-                  textAlign: 'center',
-                  fontWeight: 700,
-                  fontSize: 15,
-                  color: post.upvotes - post.downvotes > 0 ? '#4caf50' : '#888',
-                }}
-              >
-                {post.upvotes - post.downvotes}
-                <div style={{ fontSize: 11, fontWeight: 400, color: '#888' }}>votes</div>
-              </div>
-
-              {/* Post info */}
-              <div style={{ flex: 1, minWidth: 0 }}>
+              <div>
                 <div style={{ fontWeight: 600, fontSize: 16, marginBottom: 4 }}>
                   {post.title}
                 </div>
@@ -159,8 +152,8 @@ export default function Home() {
                   {new Date(post.createdAt).toLocaleDateString()}
                 </div>
               </div>
-            </div>
-          </Link>
+            </Link>
+          </article>
         ))}
       </div>
     </div>

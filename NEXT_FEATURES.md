@@ -101,7 +101,7 @@ Done when:
 - Logged-in users can add comments.
 - Comments display author and creation date.
 
-### 6. Post Voting UI
+[done] ### 6. Post Voting UI
 
 Connect the existing post vote API to the frontend.
 

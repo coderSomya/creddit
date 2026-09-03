@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLocation, useParams, Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { api } from '../services/api';
+import PostVoteControls from '../components/PostVoteControls';
 
 export default function PostDetail() {
   const { id } = useParams();
@@ -116,6 +117,9 @@ export default function PostDetail() {
   if (!post) return null;
 
   const score = post.upvotes - post.downvotes;
+  const handleVote = (updatedPost) => {
+    setDetail((current) => ({ ...current, post: updatedPost }));
+  };
 
   return (
     <div style={{ maxWidth: 740, margin: '24px auto', padding: '0 16px' }}>
@@ -135,7 +139,10 @@ export default function PostDetail() {
           marginTop: 12,
         }}
       >
-        <h2 style={{ margin: '0 0 8px', fontSize: 22 }}>{post.title}</h2>
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16 }}>
+          <PostVoteControls post={post} onVote={handleVote} />
+          <h2 style={{ margin: '2px 0 8px', fontSize: 22 }}>{post.title}</h2>
+        </div>
         <div style={{ fontSize: 13, color: '#888', marginBottom: 16 }}>
           posted by <strong>u/{post.author?.username ?? '[deleted]'}</strong>
           {' · '}
