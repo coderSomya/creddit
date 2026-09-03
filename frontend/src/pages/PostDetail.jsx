@@ -3,6 +3,7 @@ import { useLocation, useParams, Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { api } from '../services/api';
 import PostVoteControls from '../components/PostVoteControls';
+import CommentVoteControls from '../components/CommentVoteControls';
 
 export default function PostDetail() {
   const { id } = useParams();
@@ -63,6 +64,8 @@ export default function PostDetail() {
       .then((items) => {
         if (!cancelled) {
           setComments({ items, requestedId: id, status: 'ready', error: '' });
+          setCommentBody('');
+          setCommentStatus({ submitting: false, error: '' });
         }
       })
       .catch((err) => {
@@ -70,9 +73,6 @@ export default function PostDetail() {
           setComments({ items: [], requestedId: id, status: 'error', error: err.message });
         }
       });
-
-    setCommentBody('');
-    setCommentStatus({ submitting: false, error: '' });
 
     return () => {
       cancelled = true;
@@ -106,6 +106,15 @@ export default function PostDetail() {
         error: err.message || 'Unable to add your comment. Please try again.',
       });
     }
+  };
+
+  const handleCommentVote = (updatedComment) => {
+    setComments((current) => ({
+      ...current,
+      items: current.items.map((comment) => (
+        comment._id === updatedComment._id ? updatedComment : comment
+      )),
+    }));
   };
 
   const { post, similar } = detail;
@@ -226,6 +235,11 @@ export default function PostDetail() {
                   </time>
                 </div>
                 <p style={styles.commentBody}>{comment.body}</p>
+                <CommentVoteControls
+                  postId={id}
+                  comment={comment}
+                  onVote={handleCommentVote}
+                />
               </article>
             ))}
           </div>

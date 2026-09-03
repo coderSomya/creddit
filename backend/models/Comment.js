@@ -1,5 +1,18 @@
 const mongoose = require('mongoose');
 
+const voteSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+  type: {
+    type: String,
+    enum: ['up', 'down'],
+    required: true,
+  },
+}, { _id: false });
+
 const commentSchema = new mongoose.Schema({
   body: {
     type: String,
@@ -17,12 +30,28 @@ const commentSchema = new mongoose.Schema({
     ref: 'Post',
     required: true,
   },
-  upvotes: { type: Number, default: 0 },
-  downvotes: { type: Number, default: 0 },
+  votes: { type: [voteSchema], default: [] },
   createdAt: {
     type: Date,
     default: Date.now,
   },
 });
+
+commentSchema.virtual('upvotes').get(function () {
+  return this.votes.filter((vote) => vote.type === 'up').length;
+});
+
+commentSchema.virtual('downvotes').get(function () {
+  return this.votes.filter((vote) => vote.type === 'down').length;
+});
+
+commentSchema.set('toJSON', {
+  virtuals: true,
+  transform: (_document, result) => {
+    delete result.votes;
+    return result;
+  },
+});
+commentSchema.set('toObject', { virtuals: true });
 
 module.exports = mongoose.model('Comment', commentSchema);

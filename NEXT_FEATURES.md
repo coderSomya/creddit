@@ -135,7 +135,7 @@ Done when:
 - Users can switch between upvote, downvote, and no vote.
 - Existing frontend vote buttons can reflect active vote state.
 
-### 8. Comment Voting
+[done] ### 8. Comment Voting
 
 Add voting support for comments.
 
