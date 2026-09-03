@@ -83,7 +83,7 @@ Done when:
 - Logged-out users are guided to log in.
 - Empty title/content submissions are blocked.
 
-### 5. Comments UI
+[done] ### 5. Comments UI
 
 Show and create comments on the post detail page.
 

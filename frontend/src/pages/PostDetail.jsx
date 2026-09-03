@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useParams, Link } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 import { api } from '../services/api';
 
 export default function PostDetail() {
   const { id } = useParams();
   const location = useLocation();
+  const { isLoggedIn } = useAuth();
   const [detail, setDetail] = useState({
     post: null,
     similar: [],
@@ -12,6 +14,14 @@ export default function PostDetail() {
     status: 'loading',
     error: null,
   });
+  const [comments, setComments] = useState({
+    items: [],
+    requestedId: null,
+    status: 'loading',
+    error: '',
+  });
+  const [commentBody, setCommentBody] = useState('');
+  const [commentStatus, setCommentStatus] = useState({ submitting: false, error: '' });
 
   useEffect(() => {
     let cancelled = false;
@@ -44,6 +54,58 @@ export default function PostDetail() {
       cancelled = true;
     };
   }, [id]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    api.get(`/posts/${id}/comments`)
+      .then((items) => {
+        if (!cancelled) {
+          setComments({ items, requestedId: id, status: 'ready', error: '' });
+        }
+      })
+      .catch((err) => {
+        if (!cancelled) {
+          setComments({ items: [], requestedId: id, status: 'error', error: err.message });
+        }
+      });
+
+    setCommentBody('');
+    setCommentStatus({ submitting: false, error: '' });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [id]);
+
+  const handleCommentSubmit = async (event) => {
+    event.preventDefault();
+    const body = commentBody.trim();
+
+    if (!body) {
+      setCommentStatus({ submitting: false, error: 'Comment cannot be empty.' });
+      return;
+    }
+
+    setCommentStatus({ submitting: true, error: '' });
+
+    try {
+      const comment = await api.post(`/posts/${id}/comments`, { body });
+      setComments((current) => ({
+        items: [comment, ...current.items],
+        requestedId: id,
+        status: 'ready',
+        error: '',
+      }));
+      setCommentBody('');
+      setCommentStatus({ submitting: false, error: '' });
+    } catch (err) {
+      setCommentStatus({
+        submitting: false,
+        error: err.message || 'Unable to add your comment. Please try again.',
+      });
+    }
+  };
 
   const { post, similar } = detail;
   const loading = detail.status === 'loading' || detail.requestedId !== id;
@@ -98,6 +160,71 @@ export default function PostDetail() {
         </div>
       </div>
 
+      <section style={styles.commentsSection} aria-labelledby="comments-heading">
+        <h3 id="comments-heading" style={styles.commentsHeading}>
+          Comments{comments.status === 'ready' ? ` (${comments.items.length})` : ''}
+        </h3>
+
+        {isLoggedIn ? (
+          <form onSubmit={handleCommentSubmit} style={styles.commentForm} noValidate>
+            <label htmlFor="comment-body" style={styles.commentLabel}>Add a comment</label>
+            <textarea
+              id="comment-body"
+              value={commentBody}
+              onChange={(event) => {
+                setCommentBody(event.target.value);
+                if (commentStatus.error) {
+                  setCommentStatus((current) => ({ ...current, error: '' }));
+                }
+              }}
+              disabled={commentStatus.submitting}
+              rows={4}
+              maxLength={10000}
+              style={styles.commentInput}
+            />
+            {commentStatus.error && <p role="alert" style={styles.error}>{commentStatus.error}</p>}
+            <button
+              type="submit"
+              disabled={commentStatus.submitting}
+              style={styles.commentButton}
+            >
+              {commentStatus.submitting ? 'Posting comment...' : 'Comment'}
+            </button>
+          </form>
+        ) : (
+          <p style={styles.loginPrompt}>
+            <Link to="/login" state={{ from: `/post/${id}` }} style={styles.loginLink}>Log in</Link>
+            {' '}to add a comment.
+          </p>
+        )}
+
+        {(comments.status === 'loading' || comments.requestedId !== id) && (
+          <p style={styles.commentsMessage}>Loading comments…</p>
+        )}
+        {comments.status === 'error' && comments.requestedId === id && (
+          <p role="alert" style={styles.error}>{comments.error || 'Unable to load comments.'}</p>
+        )}
+        {comments.status === 'ready' && comments.items.length === 0 && (
+          <p style={styles.commentsMessage}>No comments yet. Start the conversation.</p>
+        )}
+        {comments.status === 'ready' && comments.items.length > 0 && (
+          <div style={styles.commentList}>
+            {comments.items.map((comment) => (
+              <article key={comment._id} style={styles.comment}>
+                <div style={styles.commentMeta}>
+                  <strong>u/{comment.author?.username ?? '[deleted]'}</strong>
+                  {' · '}
+                  <time dateTime={comment.createdAt}>
+                    {new Date(comment.createdAt).toLocaleString()}
+                  </time>
+                </div>
+                <p style={styles.commentBody}>{comment.body}</p>
+              </article>
+            ))}
+          </div>
+        )}
+      </section>
+
       {similar.length > 0 && (
         <div style={{ marginTop: 32 }}>
           <h3 style={{ fontSize: 15, color: '#555', marginBottom: 12, fontWeight: 600 }}>
@@ -148,5 +275,37 @@ const styles = {
   success: {
     margin: '0 0 12px', color: '#1b5e20', background: '#f1f8f1', border: '1px solid #81c784',
     borderRadius: 4, padding: '9px 12px', fontSize: 14, textAlign: 'left',
+  },
+  commentsSection: { marginTop: 32 },
+  commentsHeading: { margin: '0 0 16px', color: '#1a3a1a', fontSize: 18 },
+  commentForm: {
+    display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 10,
+    marginBottom: 20,
+  },
+  commentLabel: { alignSelf: 'flex-start', color: '#1a3a1a', fontSize: 14, fontWeight: 600 },
+  commentInput: {
+    boxSizing: 'border-box', width: '100%', border: '1px solid #a5d6a7', borderRadius: 4,
+    padding: '10px 12px', background: '#fff', color: '#333', font: 'inherit', fontSize: 15,
+    lineHeight: 1.5, resize: 'vertical',
+  },
+  commentButton: {
+    border: '1px solid #2e7d32', borderRadius: 4, background: '#2e7d32', color: '#fff',
+    cursor: 'pointer', font: 'inherit', fontSize: 14, fontWeight: 700, padding: '8px 14px',
+  },
+  loginPrompt: {
+    margin: '0 0 20px', border: '1px solid #c8e6c9', borderRadius: 4,
+    background: '#f1f8f1', color: '#555', padding: '12px 14px', fontSize: 14,
+  },
+  loginLink: { color: '#2e7d32', fontWeight: 700 },
+  commentsMessage: { color: '#777', fontSize: 14 },
+  commentList: { display: 'flex', flexDirection: 'column', gap: 10 },
+  comment: {
+    border: '1px solid #c8e6c9', borderRadius: 4, background: '#fff', padding: '12px 16px',
+  },
+  commentMeta: { color: '#777', fontSize: 12 },
+  commentBody: { margin: '8px 0 0', fontSize: 14, lineHeight: 1.5, whiteSpace: 'pre-wrap' },
+  error: {
+    alignSelf: 'stretch', margin: 0, color: '#b42318', background: '#fff4f2',
+    border: '1px solid #f5b5ac', borderRadius: 4, padding: '9px 10px', fontSize: 14,
   },
 };
