@@ -1,5 +1,18 @@
 const mongoose = require('mongoose');
 
+const voteSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+  type: {
+    type: String,
+    enum: ['up', 'down'],
+    required: true,
+  },
+}, { _id: false });
+
 const postSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -16,14 +29,7 @@ const postSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
-  upvotes: {
-    type: Number,
-    default: 0,
-  },
-  downvotes: {
-    type: Number,
-    default: 0,
-  },
+  votes: { type: [voteSchema], default: [] },
   comments: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -35,5 +41,22 @@ const postSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
+
+postSchema.virtual('upvotes').get(function () {
+  return this.votes.filter((vote) => vote.type === 'up').length;
+});
+
+postSchema.virtual('downvotes').get(function () {
+  return this.votes.filter((vote) => vote.type === 'down').length;
+});
+
+postSchema.set('toJSON', {
+  virtuals: true,
+  transform: (_document, result) => {
+    delete result.votes;
+    return result;
+  },
+});
+postSchema.set('toObject', { virtuals: true });
 
 module.exports = mongoose.model('Post', postSchema);

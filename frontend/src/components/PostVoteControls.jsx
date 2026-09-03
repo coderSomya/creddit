@@ -29,10 +29,14 @@ export default function PostVoteControls({ post, onVote, compact = false }) {
     <div style={{ minWidth: compact ? 54 : 78, textAlign: 'center' }}>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 6 }}>
         <button type="button" onClick={() => vote('up')} disabled={status.submitting}
-          aria-label={`Upvote ${post.title}`} title="Upvote" style={buttonStyle(status.submitting)}>↑</button>
+          aria-label={`${post.userVote === 'up' ? 'Remove upvote from' : 'Upvote'} ${post.title}`}
+          aria-pressed={post.userVote === 'up'} title={post.userVote === 'up' ? 'Remove upvote' : 'Upvote'}
+          style={buttonStyle(status.submitting, post.userVote === 'up')}>↑</button>
         <strong style={{ color: score > 0 ? '#2e7d32' : score < 0 ? '#b42318' : '#777' }}>{score}</strong>
         <button type="button" onClick={() => vote('down')} disabled={status.submitting}
-          aria-label={`Downvote ${post.title}`} title="Downvote" style={buttonStyle(status.submitting)}>↓</button>
+          aria-label={`${post.userVote === 'down' ? 'Remove downvote from' : 'Downvote'} ${post.title}`}
+          aria-pressed={post.userVote === 'down'} title={post.userVote === 'down' ? 'Remove downvote' : 'Downvote'}
+          style={buttonStyle(status.submitting, post.userVote === 'down')}>↓</button>
       </div>
       {status.submitting && <span style={messageStyle}>Voting…</span>}
       {status.error && <span role="alert" style={{ ...messageStyle, color: '#b42318' }}>{status.error}</span>}
@@ -45,9 +49,10 @@ export default function PostVoteControls({ post, onVote, compact = false }) {
   );
 }
 
-const buttonStyle = (disabled) => ({
+const buttonStyle = (disabled, active) => ({
   width: 28, height: 28, padding: 0, border: '1px solid #a5d6a7', borderRadius: 4,
-  background: '#fff', color: '#2e7d32', cursor: disabled ? 'wait' : 'pointer',
+  background: active ? '#2e7d32' : '#fff', color: active ? '#fff' : '#2e7d32',
+  cursor: disabled ? 'wait' : 'pointer',
   fontSize: 17, opacity: disabled ? 0.6 : 1,
 });
 

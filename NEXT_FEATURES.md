@@ -118,7 +118,7 @@ Done when:
 - The displayed score updates without a full page reload.
 - Logged-out users are prompted to log in before voting.
 
-### 7. One Vote Per User
+[done] ### 7. One Vote Per User
 
 Replace raw post vote counters with per-user vote tracking.
 
